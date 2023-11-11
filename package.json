@@ -1,0 +1,32 @@
+{
+  "name": "logisticsapi",
+  "version": "1.0.0",
+  "description": "API to monitor shipping status of orders until they are delivered to customers",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app",
+    "dev": "node app"
+  },
+  "keywords": [
+    "customers",
+    "riders",
+    "orders",
+    "status"
+  ],
+  "author": "Shodipe Oladele",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.0.0",
+    "mongoose-paginate-v2": "^1.7.4",
+    "socket.io": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
