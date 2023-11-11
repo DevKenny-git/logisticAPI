@@ -32,8 +32,8 @@ router.post("/", isSignedIn, isCustomer, async (req, res) => {
 });
 
 router.get("/", isSignedIn, isCustomer, async (req, res) => {
-    const allOrder = await orderCollection.find({customer: req.decoded.userId});
-    res.json({allOrder});
+    const allOrder = await orderCollection.find({customer: req.decoded.userId}).sort({createdAt: -1});
+    res.json(allOrder);
 });
 
 router.put("/status/:id", isSignedIn, isRider, async (req, res) => {
@@ -56,8 +56,8 @@ router.put("/status/:id", isSignedIn, isRider, async (req, res) => {
 router.get("/view", isSignedIn, isRider, async (req, res) => {
     try {
         console.log(req.decoded.userId);
-        const allOrder = await orderCollection.findOne({riderId: req.decoded.userId}).lean();        
-        res.json(allOrder.sort({createdAt: -1}));
+        const allOrder = await orderCollection.findOne({riderId: req.decoded.userId}).lean().sort({createdAt: -1});        
+        res.json(allOrder);
     } catch(error) {
         console.log(error.message);
     }
