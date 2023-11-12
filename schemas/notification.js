@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const messageShema = new mongoose.Schema({
+const notificationShema = new mongoose.Schema({
     sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Customer",
@@ -17,8 +17,8 @@ const messageShema = new mongoose.Schema({
     }
 }, {timestamps: true});
 
-const messagesCollection = mongoose.model("messages", messageShema);
+const notificationCollection = mongoose.model("messages", notificationShema);
 
 module.exports = {
-    messagesCollection
+    notificationCollection
 }

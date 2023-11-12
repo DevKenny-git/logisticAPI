@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const port = 3000 || process.env.PORT;
 const orderRoute = require("./routes/order");
-const {messagesCollection} = require("./schemas/messages");
+const {notificationCollection} = require("./schemas/notification");
 const {createServer} = require('http');
 const { ioController } = require("./routes/middleware");
 const { ridersCollection } = require("./schemas/riders");
@@ -46,14 +46,14 @@ io.on('connection', async (socket) => {
     socket.on('send-message', async (payload, callback) => {
         try {
             const messageNotification = await orderCollection.findOne({riderId:  userDetails.userId});
-            await messagesCollection.create({
+            await notificationCollection.create({
                 sender: userDetails.userId,
                 chatId: payload.chatId,
                 receiver: payload.userId,
                 message: messageNotification.status
             });     
             
-            const user = await orderCollection.find({user: payload.userId}, "socketId");
+            const user = await orderCollection.find({customer: payload.userId}, "socketId");
 
             const userSocketIds = user.map(socketId => {
                 return socketId.socketId;
@@ -64,7 +64,7 @@ io.on('connection', async (socket) => {
             })
             callback({
                 successful: true,
-                message: "Your message has been sent"
+                message
             });
         } catch (err) {
             console.log (err);
