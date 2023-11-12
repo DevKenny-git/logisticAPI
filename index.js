@@ -17,7 +17,7 @@ const httpServer = createServer(app);
 const io = new Server(httpServer);
 
 io.use((socket, next) => {
-    const token = socket.requests.headers.auth;
+    const token = socket.request.headers.auth;
 
     const {err, user} = ioController(token);
 
