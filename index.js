@@ -53,7 +53,7 @@ io.on('connection', async (socket) => {
                 message: messageNotification.status
             });     
             
-            const user = await ordersCollection.find({user: payload.userId}, "socketId");
+            const user = await orderCollection.find({user: payload.userId}, "socketId");
 
             const userSocketIds = user.map(socketId => {
                 return socketId.socketId;
@@ -72,7 +72,7 @@ io.on('connection', async (socket) => {
     });
 
     socket.on("disconnect", async (reason) => {
-        await connectedUserCollection.findOneAndDelete({socketId});
+        await connectedUsersCollection.findOneAndDelete({socketId});
     });
     
 
