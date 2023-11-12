@@ -11,6 +11,7 @@ const { ioController } = require("./routes/middleware");
 const { ridersCollection } = require("./schemas/riders");
 const { customerCollection } = require("./schemas/customers");
 const { orderCollection } = require("./schemas/order");
+const { connectedUsersCollection } = require("./schemas/connectedUser");
 const { Server } = require("socket.io");
 
 const httpServer = createServer(app);
@@ -33,7 +34,11 @@ io.on('connection', async (socket) => {
     const socketId = socket.id;
     const userDetails = socket.request.userDetails;
 
-       
+    const user = await connectedUsersCollection.create({
+        user: userDetails.userId,
+        socketId
+    });
+    
     const onlineUser = await customerCollection.findById(userDetails.userId) || await ridersCollection.findById(userDetails.userId);
     socket.broadcast.emit("user-online", `${onlineUser.fullname}`);
 
