@@ -39,38 +39,39 @@ io.on('connection', async (socket) => {
 
 
     socket.on('send-message', async (payload, callback) => {
-        const messageNotification = await orderCollection.findOne({riderId:  userDetails.userId});
-        await messagesCollection.create({
-            sender: userDetails.userId,
-            chatId: payload.chatId,
-            receiver: payload.userId,
-            message: messageNotification.status
-        });     
-        
-        const user = await ordersCollection.find({user: payload.userId}, "socketId");
+        try {
+            const messageNotification = await orderCollection.findOne({riderId:  userDetails.userId});
+            await messagesCollection.create({
+                sender: userDetails.userId,
+                chatId: payload.chatId,
+                receiver: payload.userId,
+                message: messageNotification.status
+            });     
+            
+            const user = await ordersCollection.find({user: payload.userId}, "socketId");
 
-        const userSocketIds = user.map(socketId => {
-            return socketId.socketId;
-        });
+            const userSocketIds = user.map(socketId => {
+                return socketId.socketId;
+            });
 
-        socket.to(userSocketIds).emit("notification", {
-            message: messageNotification.status
-        })
-        callback({
-            successful: true,
-            message: "Your message has been sent"
-        });
+            socket.to(userSocketIds).emit("notification", {
+                message: messageNotification.status
+            })
+            callback({
+                successful: true,
+                message: "Your message has been sent"
+            });
+        } catch (err) {
+            console.log (err);
+        }
     });
-    
+
     socket.on("disconnect", async (reason) => {
         await connectedUserCollection.findOneAndDelete({socketId});
     });
+    
+
 });
-
-
-
-
-
 
 const connect = mongoose.connect(process.env.MONGOURL)
 connect.then(() => {
