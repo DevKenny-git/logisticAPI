@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 
 const notificationShema = new mongoose.Schema({
-    sender: {
+    receiver: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Customer",
         required: true
     },
-    receiver: {
+    sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Riders",
         required: true

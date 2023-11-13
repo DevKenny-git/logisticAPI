@@ -48,7 +48,6 @@ io.on('connection', async (socket) => {
             const messageNotification = await orderCollection.findOne({riderId:  userDetails.userId});
             await notificationCollection.create({
                 sender: userDetails.userId,
-                chatId: payload.chatId,
                 receiver: payload.userId,
                 message: messageNotification.status
             });     
