@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { setTheUsername } = require("whatwg-url");
 
 const ridersSchema = new mongoose.Schema({
     fullname: {
@@ -22,7 +21,7 @@ const ridersSchema = new mongoose.Schema({
 
 },
 {
-    timestamps: setTheUsername
+    timestamps: true
 });
 
 const ridersCollection = mongoose.model("Riders", ridersSchema);
